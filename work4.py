@@ -9,7 +9,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.types import ParseMode
 from aiogram.utils import executor
 
-API_TOKEN = '1984080956:AAEcKOHcClxGY3sMxRYm3QizwoolWegd6m4'
+API_TOKEN = '2034444093:AAE4ema_djvCnrC448_CXn1l0GG_QF4kQow'
 
 bot = Bot(token=API_TOKEN)
 storage = MemoryStorage()
@@ -26,6 +26,8 @@ class Form(StatesGroup):
 async def cmd_start(message: types.Message):
     await Form.firstname.set()
     await message.reply("Hello, what is your name?")
+    
+
 
 @dp.message_handler(state=Form.firstname)
 async def process_name(message: types.Message, state: FSMContext):
@@ -42,7 +44,7 @@ async def process_name(message: types.Message, state: FSMContext):
     await message.reply("What group do you study in?")
 
 @dp.message_handler(lambda message: message.text, state=Form.group)
-async def process_name(message: types.Message, state: FSMContext):
+async def process_age(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['group'] = message.text
     await Form.next()
@@ -50,7 +52,7 @@ async def process_name(message: types.Message, state: FSMContext):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, selective=True)
     markup.add("2017", "2018", "2019", "2020")
     
-    await message.reply("What is your last name?", reply_markup=markup)
+    await message.reply("What year did you start studying?", reply_markup=markup)
     
 @dp.message_handler(lambda message: message.text not in ["2017", "2018", "2019", "2020"], state=Form.startedu)
 async def process_gender_invalid(message: types.Message):
